@@ -1,0 +1,10 @@
+- name: setting DNS A record
+  cloudflare_dns:
+   zone: brimore.com
+   record: "{{ hostname }}"
+   type: A
+   value: "{{ ansible_default_ipv4.address }}"
+   account_email: "yourcloudflare_acount"
+   account_api_token: "your_api_token"
+  tags:
+  - cloudflare_dns

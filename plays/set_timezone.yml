@@ -1,0 +1,5 @@
+- name: set timezone to Cairo
+  command: timedatectl set-timezone Africa/Cairo
+  tags:
+  - timezone
+

@@ -1,0 +1,2 @@
+- name: set hostname of my machine
+  command: hostnamectl set-hostname {{ hostname }}

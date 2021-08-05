@@ -1,0 +1,8 @@
+barney13/
+barney13.tar.gz
+odoo12.0_enterprise_addons.tar.gz
+odoo13.0_enterprise_addons.tar.gz
+odoo14.0_enterprise_addons.tar.gz
+url_for_download.txt
+wkhtmltox_0.12.6-1.bionic_amd64.deb
+

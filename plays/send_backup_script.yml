@@ -1,0 +1,21 @@
+- name: send backup script to postgres /var/lib 
+  template:
+          src: scripts/autopostgresqlbackup.sh
+          dest: /var/lib/postgresql/
+          force: yes
+          owner: postgres
+          group: postgres
+          mode: '0755'
+
+- name: change /backup/databases ownership 
+  command: chown postgres:postgres /backup/databases
+
+- name: add cronjob in postgres user
+  cron:
+    name: "postgres weekly backup"
+    minute: 0
+    hour: 0
+    weekday: 1
+    user: postgres
+    job: "/var/lib/postgresql/autopostgresqlbackup.sh"
+    # */5 * * * * 

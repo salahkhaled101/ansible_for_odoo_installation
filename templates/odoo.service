@@ -1,0 +1,21 @@
+[Unit]
+Description={{ hostname }} odoo{{ version }} instance
+Requires=postgresql.service
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+#SyslogIdentifier={{ hostname }}
+PermissionsStartOnly=true
+User={{ hostname }}
+Group=odoo
+ExecStart=/usr/bin/{{ hostname }} /opt/odoo{{ version }}/odoo-bin -c /etc/odoo/{{ hostname }}.conf --logfile /var/log/odoo/{{ hostname }}.log
+ExecReload=/bin/kill -HUP /opt/odoo{{ version }}/run/{{ hostname }}.pid
+KillMode=mixed
+KillSignal=SIGKILL
+#StandardOutput=journal+console
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
+ 

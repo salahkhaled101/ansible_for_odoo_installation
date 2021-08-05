@@ -1,0 +1,54 @@
+- name: installing and starting postgres server
+  block:
+  - name: installing latest postgresql
+    shell: >
+     echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list ;
+     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - ;
+     apt-get update;
+     apt-get -y install postgresql;
+    tags:
+    - postgres_install
+  
+  - name: start and enable postgres
+    systemd:
+     name: postgresql
+     enabled: yes
+     state: started
+
+
+  - name: Make sure psycopg2 is installed
+    pip:
+      name: psycopg2
+      state: present
+
+
+  - name: Grant users postgres access to databases using peer authentication
+    postgresql_pg_hba:
+      dest: /etc/postgresql/13/main/pg_hba.conf
+      contype: local
+      users: postgres
+      databases: all
+      method: trust
+      create: true
+ 
+  - name: Grant users postgres access to databases using peer authentication
+    postgresql_pg_hba:
+      dest: /etc/postgresql/13/main/pg_hba.conf
+      contype: local
+      users: all
+      databases: all
+      method: md5
+      create: true
+
+  - name: restart postgresql service
+    systemd:
+      name: postgresql
+      state: restarted
+
+  
+  - name: Create our postgre user, set MD5-hashed password, grant privs
+    postgresql_user:
+      name: brimore{{ version }}
+      password: ipee2iegh5Joe5ohsh2of4Bei
+      role_attr_flags: CREATEDB
+

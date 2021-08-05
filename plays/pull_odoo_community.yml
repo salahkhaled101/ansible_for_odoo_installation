@@ -1,0 +1,30 @@
+- name: pull odoo community
+  git:
+   repo: 'https://github.com/odoo/odoo.git'
+   remote: '{{ version }}'
+   dest: /opt/odoo
+  tags:
+  - pull_odoo_community
+  ignore_errors: yes
+- name: Recursively change ownership of a directory
+  file:
+    path: /opt/odoo
+    state: directory
+    recurse: yes
+    owner: root
+    group: odoo
+
+- name: copy the odoo community files
+  command: rsync -a /opt/odoo/ /opt/odoo{{ version }}/
+
+- name: remove the testing dir
+  command: rm -rf /opt/odoo
+
+  #- name: install lxml
+  #command: pip install lxml
+
+- name: install requirements.txt
+  shell: pip3 install -r /opt/odoo{{ version }}/requirements.txt
+  tags:
+  - install_requirements.txt
+

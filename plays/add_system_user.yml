@@ -1,0 +1,18 @@
+- name: add odoo group and system user
+  block:
+  - name: add odoo group
+    command: groupadd odoo
+    ignore_errors: yes
+
+
+  - name: setting up system user
+    user:
+      name: '{{ hostname }}'
+      comment: odoo application user
+      shell: /usr/sbin/nologin
+      state: present
+      groups: odoo
+      create_home: yes
+
+  - name: link python to user
+    command:  ln /usr/bin/python3.6 /usr/bin/{{ hostname }}

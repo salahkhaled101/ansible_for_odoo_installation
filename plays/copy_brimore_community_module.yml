@@ -1,0 +1,19 @@
+- name: copying and extracting brimore custom module
+  block:
+
+  - name: copy brimore custom module to host
+    copy:
+      src: packages/barney13.tar.gz
+      dest: /opt/odoo{{ version }}/projects/{{ hostname }}/
+      mode: 0644
+
+  - name: extract brimore custom modules
+    shell: >
+            cd /opt/odoo{{ version }}/projects/{{ hostname}} && tar -xzf barney13.tar.gz && rm -f barney13.tar.gz ;
+            mv /opt/odoo{{ version }}/projects/{{ hostname }}/barney13 /opt/odoo{{ version }}/projects/{{ hostname }}/modules ;
+
+  - name: change the ownership
+    command: chown -R {{ hostname }}:odoo /opt/odoo{{ version }}/projects/{{ hostname }}/
+
+  tags:
+  - copy_brimore_custom_module

@@ -1,0 +1,21 @@
+- name: change the ownership of Odoo dir
+  command: chown -R {{ hostname }}:odoo /opt/odoo{{ version }}/projects/{{ hostname }}
+
+ 
+- name: install pip3 install psycopg2-binary
+  command: pip3 install psycopg2-binary
+
+
+  #- name: change the ownership of run dir
+  #  command: chown  {{ hostname }}:odoo /opt/odoo{{ version }}/run
+
+- name: start new odoo instance
+  service:
+    name: "{{ hostname }}"
+    state: started
+    enabled: yes
+ 
+    #- name: change the ownership of /data dir
+  #  command: chown -R :odoo /opt/odoo{{ version }}/
+
+

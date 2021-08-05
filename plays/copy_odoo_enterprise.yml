@@ -1,0 +1,15 @@
+- name: copying and extracting enterprise addons
+  block:
+  - name: copy enterprise addons to host
+    copy:
+     src: packages/odoo{{ version }}.0_enterprise_addons.tar.gz
+     dest: /opt/odoo{{ version }}/
+     mode: 0644
+
+  - name: extract enterprise modules
+    shell: > 
+     cd /opt/odoo{{ version }}/ && tar -xzf odoo{{ version }}.0_enterprise_addons.tar.gz && rm -f odoo{{ version }}.0_enterprise_addons.tar.gz ;
+     mv /opt/odoo{{ version }}/odoo{{ version }}.0_enterprise_addons /opt/odoo{{ version }}/enterprise ;
+
+  tags:
+  - copy_enterprise_addons

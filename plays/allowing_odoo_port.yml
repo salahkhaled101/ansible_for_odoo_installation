@@ -1,0 +1,23 @@
+- block:
+  - name: enabling firewall (UFW)
+    ufw:
+     state: enabled
+     policy: allow
+
+  - name: opening necessary ports
+    ufw:
+     rule: allow
+     port: '{{ item }}'
+    with_items:
+     - '80'
+     - '443'
+     - '22'
+     - '55661'
+     - '5432'
+    tags:
+    - open_ports
+  - name: changing policy to deny
+    ufw:
+     state: enabled
+     policy: deny
+

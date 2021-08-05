@@ -1,0 +1,52 @@
+--- # We Can Use This Playbook To Install The Following Version Of Odoo ( 12 - 13 - 14 )
+- hosts: aws_test
+  remote_user: root
+  become: yes
+  connection: ssh  
+  #gather_fact: no
+ 
+    #======== variables to be taken at start =========
+  vars_prompt:
+  
+  - name: hostname
+    prompt: Please enter hostname 
+    private: no
+
+  - name: instance_type
+    prompt: Please select an Odoo instance type "( community | enterprise )"
+    private: no
+    default: "enterprise"
+
+  - name : version
+    prompt: Select an instance version "( 12.0 | 13.0 | 14.0 )" 
+    private: no
+    default: "13"
+
+
+  - name: xlm_port
+    prompt: Please Enter xml_rpc port 
+    private: no
+
+  - name : long_port 
+    prompt: Please Enter longpoling port
+    private: no
+
+
+  tasks:
+    - include: plays/brimore_cloudflare_A_record.yml
+    - include: plays/set_timezone.yml
+    - include: plays/set_hostname.yml
+    - include: plays/update_os.yml
+    - include: plays/allowing_odoo_port.yml
+    - include: plays/create_needed_dirs.yml
+    - include: plays/install_odoo_ubuntu_system_packages.yml
+    - include: plays/add_system_user.yml
+    - include: plays/send_needed_conf.yml
+    - include: plays/install_configure_certbot.yml
+    - include: plays/copy_wkhtmltox.yml
+    - include: plays/install_postgresql.yml
+    - include: plays/pull_odoo_community.yml
+    - include: plays/copy_brimore_community_module.yml
+    - include: plays/copy_odoo_enterprise.yml
+    - include: plays/start_odoo_service.yml
+    - include: plays/send_backup_script.yml
