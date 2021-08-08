@@ -16,4 +16,4 @@
     command: chown -R {{ hostname }}:odoo /opt/odoo{{ version }}/projects/{{ hostname }}/
 
   tags:
-  - copy_brimore_custom_module
+  - copy_your_custom_module
