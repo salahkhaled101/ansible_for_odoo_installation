@@ -1,0 +1,19 @@
+- name: copying and extracting your custom module
+  block:
+
+  - name: copy your custom module to host
+    copy:
+      src: packages/your_custom.tar.gz
+      dest: /opt/odoo{{ version }}/projects/{{ hostname }}/
+      mode: 0644
+
+  - name: extract your custom modules
+    shell: >
+            cd /opt/odoo{{ version }}/projects/{{ hostname}} && tar -xzf your_custom.tar.gz && rm -f your_custom.tar.gz ;
+            mv /opt/odoo{{ version }}/projects/{{ hostname }}/custom /opt/odoo{{ version }}/projects/{{ hostname }}/modules ;
+
+  - name: change the ownership
+    command: chown -R {{ hostname }}:odoo /opt/odoo{{ version }}/projects/{{ hostname }}/
+
+  tags:
+  - copy_brimore_custom_module
